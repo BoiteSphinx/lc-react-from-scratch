@@ -6,6 +6,8 @@ import { PuppiesList } from "./components/Puppieslist";
 import { Search } from "./components/Search";
 import { Shortlist } from "./components/Shortlist";
 
+import { puppies } from "./data/puppies";
+
 export function App() {
   return (
     <PageWrapper>
@@ -26,7 +28,7 @@ function Main() {
 
         <Shortlist />
       </div>
-      <PuppiesList />
+      <PuppiesList puppies={puppies} />
 
       <NewPuppyForm />
 
