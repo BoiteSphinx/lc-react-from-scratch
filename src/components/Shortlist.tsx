@@ -1,4 +1,4 @@
-export function Shortlist() {
+export function ShortList() {
   return (
     <div>
       <h2 className="flex items-center gap-2 font-medium">
