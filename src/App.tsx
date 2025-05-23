@@ -3,9 +3,9 @@ import { Container } from "./components/Container";
 import { Header } from "./components/Header";
 import { NewPuppyForm } from "./components/NewPuppyForm";
 import { PageWrapper } from "./components/PageWrapper";
-import { PuppiesList } from "./components/Puppieslist";
+import { PuppiesList } from "./components/PuppiesList";
 import { Search } from "./components/Search";
-import { ShortList } from "./components/Shortlist";
+import { ShortList } from "./components/ShortList";
 
 import { puppies } from "./data/puppies";
 import { Puppy } from "./types";
@@ -30,7 +30,7 @@ function Main() {
       <div className="mt-24 grid gap-8 sm:grid-cols-2">
         <Search />
 
-        <ShortList />
+        <ShortList puppies={puppies} liked={liked} setLiked={setLiked} />
       </div>
       <PuppiesList puppies={puppies} liked={liked} setLiked={setLiked} />
 
