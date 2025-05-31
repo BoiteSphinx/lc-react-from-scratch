@@ -1,12 +1,9 @@
-import { Heart, X } from "lucide-react";
+import { Heart, LoaderCircle, X } from "lucide-react";
 import { Puppy } from "../types";
-import { Dispatch, SetStateAction } from "react";
+import { toggleLikedStatus } from "../queries";
+import { Dispatch, SetStateAction, useState } from "react";
 
-export function ShortList({ puppies, liked, setLiked }: {
-  puppies: Puppy[],
-  liked: Puppy['id'][];
-  setLiked: Dispatch<SetStateAction<Puppy['id'][]>>;
-}) {
+export function ShortList({ puppies, setPuppies }: { puppies: Puppy[]; setPuppies: Dispatch<SetStateAction<Puppy[]>>;}) {
   return (
     <div>
       <h2 className="flex items-center gap-2 font-medium">
@@ -15,7 +12,7 @@ export function ShortList({ puppies, liked, setLiked }: {
       </h2>
       <ul className="mt-4 flex flex-wrap gap-4">
         {puppies
-        .filter(pup => liked.includes(pup.id))
+        .filter(pup => pup.likedBy.includes(1))
         .map((puppy) => (
           <li key={puppy.id} className="relative flex items-center overflow-clip rounded-md bg-white shadow-sm ring ring-black/5 transition duration-100 starting:scale-0 starting:opacity-0">
             <img
@@ -26,17 +23,33 @@ export function ShortList({ puppies, liked, setLiked }: {
               src={puppy.imageUrl}
             />
             <p className="px-3 text-sm text-slate-800">{puppy.name}</p>
-            <button className="group h-full border-l border-slate-100 px-2 hover:bg-slate-100">
-              <X
-                className="size-4 stroke-slate-400 group-hover:stroke-red-400"
-                onClick={() => {
-                  setLiked(liked.filter(id => id !== puppy.id))
-                }}
-              />
-            </button>
+            <DeleteButton id={puppy.id} setPuppies={setPuppies} />
           </li>
         ))}
       </ul>
     </div>
+  )
+}
+
+function DeleteButton({ id, setPuppies }: { id: Puppy['id'], setPuppies: Dispatch<SetStateAction<Puppy[]>> }) {
+  const [pending, isPending] = useState(false)
+
+  return (
+    <button className="group h-full border-l border-slate-100 px-2 hover:bg-slate-100" disabled={pending}>
+      {pending ? (
+        <LoaderCircle className="size-4 animate-spin stroke-slate-300" />
+      ) : (
+        <X
+          className="size-4 stroke-slate-400 group-hover:stroke-red-400"
+          onClick={async () => {
+            isPending(true)
+            const updatedPuppies = await toggleLikedStatus(id)
+            setPuppies(updatedPuppies)
+            isPending(false)
+          }}
+        />
+
+      )}
+    </button>
   )
 }
