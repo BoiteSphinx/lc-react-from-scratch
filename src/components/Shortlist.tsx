@@ -1,9 +1,8 @@
 import { Heart, X } from "lucide-react";
 import { Puppy } from "../types";
 import { Dispatch, SetStateAction } from "react";
-import { puppies } from "../data/puppies";
 
-export function ShortList({ liked, setLiked }: {
+export function ShortList({ puppies, liked, setLiked }: {
   puppies: Puppy[],
   liked: Puppy['id'][];
   setLiked: Dispatch<SetStateAction<Puppy['id'][]>>;
@@ -24,7 +23,7 @@ export function ShortList({ liked, setLiked }: {
               width={32}
               alt={puppy.name}
               className="aspect-square w-8 object-cover"
-              src={puppy.imagePath}
+              src={puppy.imageUrl}
             />
             <p className="px-3 text-sm text-slate-800">{puppy.name}</p>
             <button className="group h-full border-l border-slate-100 px-2 hover:bg-slate-100">
