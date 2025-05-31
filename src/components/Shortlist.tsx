@@ -43,8 +43,12 @@ function DeleteButton({ id, setPuppies }: { id: Puppy['id'], setPuppies: Dispatc
           className="size-4 stroke-slate-400 group-hover:stroke-red-400"
           onClick={async () => {
             isPending(true)
-            const updatedPuppies = await toggleLikedStatus(id)
-            setPuppies(updatedPuppies)
+            const updatedPuppy = await toggleLikedStatus(id)
+            setPuppies((prevPuppies) => {
+              return prevPuppies.map((existingPuppy) =>
+                existingPuppy.id === updatedPuppy.id ? updatedPuppy : existingPuppy
+              )
+            })
             isPending(false)
           }}
         />

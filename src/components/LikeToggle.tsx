@@ -12,8 +12,11 @@ export function LikeToggle({ puppy, setPuppies }: {
   return (
     <button className="group" onClick={async () => {
       setPending(true)
-      const updatedPuppies = await toggleLikedStatus(puppy.id)
-      setPuppies(updatedPuppies)
+      const updatedPuppy = await toggleLikedStatus(puppy.id)
+      setPuppies((prevPups) => {
+        return prevPups.map((existingPuppy) =>
+          existingPuppy.id === updatedPuppy.id ? updatedPuppy : existingPuppy)
+      })
       setPending(false)
     }}>
       {pending ? (
